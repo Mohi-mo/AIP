@@ -3,7 +3,7 @@
 #include <iomanip>
 #include <math.h>
 
-//задача 5 (11/04/2020). Ќахождение наибольшего/наименьшего элементов массива и их пор€дковых номеров.
+//задача 5 (11/04/2020). Ќайти наибольший/наименьший элемент массива и его номер по пор€дку.
 
 const int n = 20;
 int array[n];
@@ -54,7 +54,7 @@ int main() {
 	std::cout << "Number maximum: " << numbmax << std::endl;
 	std::cout << "Number minimum: " << numbmin << std::endl;
 	
-	void Filework();
+	Filework();
 
 	getchar();
 	getchar();
