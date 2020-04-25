@@ -3,37 +3,43 @@
 #include <iomanip>
 #include <math.h>
 
-//task 1(d) 2(a,b) (18/04/2020). Generate an array with random numbers in the range [-70;50].
+/*task 1(d) 2(a,b,c) (18/04/2020). Generate an array with random numbers in the range [-70;50]. 
+Create a program that will count the number of shuffling actions. 
+Analyze the dependence of the number of permutations on the number of elements in an array.*/
+
+int iterPermutationsSort1 = 0;
+int iterPermutationsSort = 0;
+int iterSort = 0;
 
 void insertionSort(int array[], int n) {
 	
 	float key = 0;
-	int j, iterIsort = 0;
+	int j;
 
 	for (int i = 1; i < n; i++){
 		
 		key = array[i]; 
 		j = i - 1;
-		iterIsort += 1;
+		
 
 		while (j >= 0 && array[j] > key){
 			
 			array[j + 1] = array[j];
 			j = j - 1;
 			array[j + 1] = key;
-		}
-		
-	}
-	
-	std::cout << std::endl;
-	std::cout << "Number of permutations: " << iterIsort << std::endl;
+			iterSort += 1;
 
+		}
+	}
+	std::cout << std::endl;
+	std::cout << "Number of permutations for insertion sort: " << iterSort << std::endl;
+	
 }
 
 void selelctSort(int array[], int n) {
+	
 	int j = 0;
 	int passing = 0;
-	int iterPermutationsSort = 0;
 	
 	for (int i = 0; i < n; i++){
 		
@@ -48,27 +54,58 @@ void selelctSort(int array[], int n) {
 
 			}
 		}
-
 		passing = array[i];
 		array[i] = array[j];
 		array[j] = passing;
-
 	}
-
 	std::cout<<std::endl;
-	std::cout << "Number of permutations: " << iterPermutationsSort << std::endl;
-
+	std::cout << "Number of permutations for selection sort: " << iterPermutationsSort << std::endl;
 }
 
-void fileWork() {
+void bubbleSort(int array[], int n){
+	
+	float passing = 0;
+	
+	for (int i = 0; i < n; i++) {
+		
+		for (int j = n - 1; j >= i + 1; j--) {
+
+			if (array[j] < array[j - 1]) {  
+				
+				passing = array[j];
+				array[j] = array[j - 1];
+				array[j - 1] = passing;
+				iterPermutationsSort1 += 1;
+
+			}
+		}
+	}
+	std::cout << std::endl;
+	std::cout << "Number of permutations for bubbles sort: " << iterPermutationsSort1 << std::endl;
+}
+
+void fileWork(int iterSort, int iterPermutationsSort, int iterPermutationsSort1) {
 	std::ofstream file;
 	file.open("result.txt");
+
+	file << "Number of permutations for insertion sort: " << iterSort << std::endl
+		<< "Number of permutations for selection sort: " << iterPermutationsSort << std::endl
+		<< "Number of permutations for bubbles sort: " << iterPermutationsSort1 << std::endl;
+
 	file.close();
 }
 
+void sorts(int array[], int n) {
+
+	//selelctSort(array, n); //375 Permutations. n = 120.
+	insertionSort(array, n); // 3573 Permutations. n = 120.
+	//bubbleSort(array, n); // 3573 Permutations. n = 120.
+
+}
+
 int main() {
-	
-	const int n = 1200;
+
+	const int n = 120;
 	int array[n];
 	
 	srand(100);
@@ -80,24 +117,25 @@ int main() {
 
 	}
 	
-	//selelctSort(array, n); //
-
-	insertionSort(array, n); // 
-	
 	std::cout << std::endl << std::endl;
+	sorts(array, n);
 	
+	fileWork(iterSort, iterPermutationsSort, iterPermutationsSort1);
+
+	std::cout << std::endl << std::endl;
 	for (int i = 0; i < n; i++){
 
 		std::cout << array[i] << " ";
 
 	}
 
-	//fileWork();
-
+	
 
 	getchar();
 	getchar();
 	
 	return 0;
 }
-/* ïğè âûïîëíåíèè çàìåòèë, ÷òî ñîğòèğîâêà âñòàâêàìè áûñòğåå ïîäáîğîì, ğàçíèöà áûëà ïğèìåğíî 256 ïåğåñòàíîâîê*/
+
+/* Ğ¿Ñ€Ğ¸ Ğ²Ñ‹Ğ¿Ğ¾Ğ»Ğ½ĞµĞ½Ğ¸Ğ¸ Ğ·Ğ°Ğ¼ĞµÑ‚Ğ¸Ğ», Ñ‡Ñ‚Ğ¾ ÑĞ¾Ñ€Ñ‚Ğ¸Ñ€Ğ¾Ğ²ĞºĞ° Ğ²Ñ‹Ğ±Ğ¾Ñ€Ğ¾Ğ¼ Ğ±Ñ‹ÑÑ‚Ñ€ĞµĞµ, Ñ‡ĞµĞ¼ Ğ²ÑÑ‚Ğ°Ğ²ĞºĞ°Ğ¼Ğ¸ Ğ¸ Ğ¿ÑƒĞ·Ñ‹Ñ€ÑŒĞºĞ°Ğ¼Ğ¸ Ğ² ÑĞ¸Ğ»Ñƒ Ñ‚Ğ¾Ğ³Ğ¾, 
+Ñ‡Ñ‚Ğ¾ Ğ´Ğ»Ñ Ğ¿Ğ¾ÑĞ»ĞµĞ´Ğ½Ğ¸Ñ… Ğ´Ğ²ÑƒÑ… ÑĞ¿Ğ¾ÑĞ¾Ğ±Ğ¾Ğ² Ñ‚Ñ€ĞµĞ±ÑƒĞµÑ‚ÑÑ Ğ½ĞµÑĞºĞ¾Ğ»ÑŒĞºĞ¾ Ğ¿Ñ€Ğ¾Ñ…Ğ¾Ğ´Ğ¾Ğ² Ğ¿Ğ¾ Ğ¼Ğ°ÑÑĞ¸Ğ²Ñƒ Ğ¸ Ğ¿ĞµÑ€ĞµÑÑ‚Ğ°Ğ½Ğ¾Ğ²Ğ¾Ğº*/
