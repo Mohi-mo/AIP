@@ -6,7 +6,7 @@
 
 using namespace std;
 
-/*task 3(d) and 4 (25/04/2020). Declare the essence and describe its properties. 
+/*task 3(d) 4 and 5 (25/04/2020). Declare the essence and describe its properties. 
 Declare entity arrays. Fill attributes with numerical and text values (define the range of values yourself).
 Analyze the dependence of the number of permutations on the number of elements in an array.
 For each of the arrays, implement a key (structure attribute) search.
@@ -135,4 +135,4 @@ int main() {
 	return 0;
 }
 
-/* при выполнении возникла неизвестного рода ошибка*/
+/* ГЇГ°ГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГЁ ГўГ®Г§Г­ГЁГЄГ«Г  Г­ГҐГЁГ§ГўГҐГ±ГІГ­Г®ГЈГ® Г°Г®Г¤Г  Г®ГёГЁГЎГЄГ */
