@@ -4,68 +4,60 @@
 #include<stdlib.h>
 #include <math.h>
 
-using namespace std;
+using namespace std;   // RASH VERSION
 
-/*task 3(d) 4 and 5 (25/04/2020). Declare the essence and describe its properties. 
-Declare entity arrays. Fill attributes with numerical and text values (define the range of values yourself).
-Analyze the dependence of the number of permutations on the number of elements in an array.
-For each of the arrays, implement a key (structure attribute) search.
-For each of the arrays to implement sorting one key.*/
+/*task 1(d) and 2 (12/05/2020). Declare two entities, include one in the other, 
+make reading and writing to text and binary files.*/
 
-struct Plant {
+const int string_len = 3;
+
+struct Books {
 
 	string name;
-	float weight, caloricValue;
-	char vitamins;
+	string genre;
+	int pages;
 	
 };
 
-void selelctSort(Plant fruits[], int n) {
-	
-	int j = 0;
-	Plant tmp;
-	
-	for(int i = 0; i < n; i++){
-		
-		j = i;
+struct Library {
 
-		for (int k = i; k < n; k++){
+	float area;
+	float age;
+	Books book;
+};
 
-			if (fruits[j].caloricValue > fruits[k].caloricValue){
-
-				j = k;
-			
-			}
-		}
-		tmp = fruits[i];
-		fruits[i] = fruits[j];
-		fruits[j] = tmp;
-	}
+void libraryShow(const Library lib) {  
+	cout << lib.area << "\t"
+		<< lib.book.pages << "\t\t["
+		<< lib.age << ","
+		<< lib.book.name << ","
+		<< lib.book.genre << "]" << endl;
 }
 
-void fileWork(const Plant parametrs[], const int n) {
-	std::ofstream file;
-	file.open("result.txt");
+void librarysShow(const Library sts[], const int lim) { 
+	cout << "area \t"
+		<< "age \t"
+		<< "books,"
+		<< endl;
 
-	for (int i = 0; i < n; i++) {
-		file << parametrs[i].name << "\t"
-			<< parametrs[i].caloricValue << "\t"
-			<< parametrs[i].vitamins << "\t"
-			<< parametrs[i].weight << "\t"
-			<< endl;
+	for (int i = 0; i < lim; i++) {
+		libraryShow(sts[i]);
 	}
-	file.close();
+
+	cout << endl;
 }
 
-void namesCreate(string& str) {
+void stringCreator(string& str, const int lim) {
 	static const char alphabet[] =
 		"ABCDEFGHIGKLMNOPQRSTUVWXYZ"
 		"abcdefghigklmnopqrstuvwxyz"
 		"1234567890";
 
-	str = "  ";
+	str.clear();
+	str.append(lim, ' ');
+
 	for (int i = 0; i < str.length(); i++) {
-		
+
 		int r = rand() % (sizeof(alphabet) - 1);
 		str[i] = alphabet[r];
 
@@ -73,66 +65,93 @@ void namesCreate(string& str) {
 	str[str.length()] = 0;
 }
 
-void showParFruit(const Plant parametrs) {
-	cout << parametrs.name << "\t"
-		<< parametrs.caloricValue << "\t"
-		<< parametrs.vitamins << "\t"
-		<< parametrs.weight << "\t"
-		<< endl;
-}
-
-void caloriesSearch(const Plant parametrs[]) {
-
-	const float calkey = 250.75;
-	const int lim = 1000;
-
+void definit(Library sts[], const int lim) {
 	for (int i = 0; i < lim; i++) {
-		if (parametrs[i].caloricValue >= calkey)
-			showParFruit(parametrs[i]);
+		
+		sts[i].age = rand() % 10;
+		sts[i].book.pages = 20 * (float)rand() / RAND_MAX;
+		stringCreator(sts[i].book.name, string_len);
+
+		
+		stringCreator(sts[i].book.genre, string_len);
+		sts[i].book.genre = rand() % 10;
 	}
 }
 
-void vitaminsSearch(const Plant parametrs[]){
+void fileWork(const Library sts[], const int l) { 
+	ofstream file;
 
-	const int vKey = 233;
-	const int lim1 = 256;
-
-	for (int i = 197; i < lim1; i++) {
-		if (parametrs[i].vitamins < vKey) {
-			showParFruit(parametrs[i]);
-		}
-	}
+	file.open("result.txt");
+	for (int i = 0; i < l; i++)  
+		file << sts[i].book.name << " "
+		<< sts[i].age << " "
+		<< endl;
+	file.close();
 }
 
+void openfileWork(Library sts[], const int l) { //openTextFile
+	ifstream f;
+
+	f.open("result.txt");
+	for (int i = 0; i < l; i++)
+		f >> sts[i].book.name
+		>> sts[i].age
+		>> sts[i].book.genre
+		>> sts[i].area
+		>> sts[i].book.pages;
+	f.close();
+}
+
+void writeBinFile(Library sts[], const int l) {
+	
+	fstream f;
+	f.open("result.bin.txt", ios::out | ios::binary);
+	f.write((char*)sts, sizeof(Library) * l);
+	f.close();
+}
+
+void binFileWork(Library sts[], const int l) {
+	fstream f;
+	f.open("result.bin.txt", ios::in | ios::binary);
+	f.read((char*)sts, sizeof(Library) * l);
+	f.close();
+}
 
 int main() {
 
-	const int n = 256;
-	Plant fruits[n];
-	
+	cout.precision(3);
 	srand(100);
 
-	for (int i = 0; i < n; i++) { 
+	const int lim = 10;
+	Library content[lim];
 
-		fruits[i].caloricValue = rand() % 1000;
-		fruits[i].weight = (float) 1000 * rand() / RAND_MAX;
-		fruits[i].vitamins = (char)i;
-		showParFruit(fruits[i]);
-		namesCreate(fruits[i].name);
+	cout << "Start massive:\n";
+	definit(content, lim);
+	fileWork(content, lim);
+	librarysShow(content, 5);
 
-	}
-	
-	selelctSort(fruits, n);
+	cout << "New:\n";
+	definit(content, lim);
+	librarysShow(content, 5);
 
-	for (int i = 0; i < n; i++)
-		showParFruit(fruits[i]);
+	cout << "Read:\n";
+	openfileWork(content, lim);
+	librarysShow(content, 5);
 
-	fileWork(fruits, n);
+	cout << "Bin:\n";
+	writeBinFile(content, lim);
+
+	cout << "New massive again:\n";
+	definit(content, lim);
+	librarysShow(content, 5);
+
+	cout << "Read massive again:\n";
+	binFileWork(content, lim);
+	librarysShow(content, 5);
 
 	getchar();
 	getchar();
-	
+
 	return 0;
 }
 
-/* ïðè âûïîëíåíèè âîçíèêëà íåèçâåñòíîãî ðîäà îøèáêà*/
