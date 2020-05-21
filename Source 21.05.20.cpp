@@ -6,64 +6,61 @@
 
 using namespace std;
 
+/*task 8 (21/05/20). Creation of a matrix with two lines, the first of which
+characterizes the motor power, the second - its class.*/
 
-/*task 1 (21/05/2020). Matrix conversion: elements of the column
-where the minimum is located matrix element, replace with zeros.*/
-
-
-void matrixCreate() {
-	const int rows = 7;
-	const int cols = 8;
-	int matrix[rows][cols]; //first the rows, then the columns!
-
+void matrixCreator() {
+	int max = 70;
+	const int row = 2;
+	const int col = 10;
+	int matrix[row][col]; //first the row, then columns!
+	
 	srand(0);
-	for (int i = 0; i < rows; i++)
-		for (int j = 0; j < cols; j++)
-			matrix[i][j] = rand() % 100 - 50; //matrix creator
 
-	cout << "Old matrix: " << endl; 
-
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++)
-			cout << matrix[i][j] << "\t";
-		cout << endl;  // Old matrix output
+	for (int i = 0; i < row; i++){ //matrix creator
+		for (int j = 0; j < col; j++) {
+			matrix[0][j] = rand() % 99;
+			matrix[1][j] = rand() % 3 + 1;
+		}
 	}
-
-	int min = matrix[0][0]; //min element 
-	int mr = 0, mc = 0; //coordinator 
-
-	for (int i = 0; i < rows; i++) //find minimum
-		for (int j = 0; j < cols; j++)
-			if (matrix[i][j] < min) {
-				min = matrix[i][j];
-				mr = i;
-				mc = j;
-			}
-
-	for (int i = 0; i < cols; i++) //zeroing :D
-		matrix[mr][i] = 0;
-
-	cout << endl;
-	cout << "Minimum element: " << min << "\t"
-		<< "Row: " << mr + 1 << "\t"
-		<< "Columns: " << mc + 1 << endl;
+	
+	cout << "Engine performance matrix: " << endl;
 	cout << endl;
 
-	cout << "New matrix: " << endl;
+    for(int i = 0; i<row; i++) {    //matrix output
+        for(int j = 0; j<col; j++){
+             cout << matrix[i][j] << "  ";
+        }
+        cout << endl;
+    }
 
-	for (int i = 0; i < rows; i++) { //New matrix output
-		for (int j = 0; j < cols; j++)
-			cout << matrix[i][j] << "\t";
-		cout << endl;
-	}
+    cout<<endl;
 
+    for(int j = 0; j<col; j++) { //selector
+		
+        if(matrix[1][j]==3){ 
+
+            for(int j = 0; j<col; j++){
+
+                if(matrix[0][j]>max){
+
+                    max=matrix[0][j];
+                    cout << "Maximum: " << max << " ";
+                }
+            }
+        }
+    }
+    cout << endl;
+    cout << " " <<endl;
+    cout << endl;
 }
-int main(){
 
-	matrixCreate();
+int main()
+{
+	matrixCreator();
 
 	getchar();
 	getchar();
-
+	
 	return 0;
-	}
+}
