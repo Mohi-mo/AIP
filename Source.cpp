@@ -6,13 +6,14 @@
 
 using namespace std;   
 
-/*task 1 (21/05/2020). Matrix conversion: elements of the column 
+/*task 6 (21/05/2020). Matrix conversion: elements of the column 
 where the minimum is located matrix element, replace with zeros.*/
 
 void matrixCreate() {
 	const int rows = 7;
 	const int cols = 8;
 	int matrix[rows][cols];  //first the rows, then the columns!
+	int massiv[cols];
 
 	srand(0);
 	for (int i = 0; i < rows; i++)
@@ -27,33 +28,31 @@ void matrixCreate() {
 		cout << endl;  // Old matrix output
 	}
 
-	int min = matrix[0][0]; //min element 
+	int max = matrix[0][0]; //min element 
 	int mr = 0, mc = 0; //coordinator 
 
-	for (int i = 0; i < rows; i++) //find minimum
-		for (int j = 0; j < cols; j++)
-			if (matrix[i][j] < min) {
-				min = matrix[i][j];
+	for (int i = 0; i < rows; i++) //find maximum
+		for (int j = 0; j < cols; j++) {
+			if (matrix[i][j] > max) {
+				max = matrix[i][j];
 				mr = i;
 				mc = j;
 			}
-
-	for (int i = 0; i < cols; i++) //zeroing :D
-		matrix[mr][i] = 0;  
+		}
 	
+	for (int i = 0; i < cols; i++) {
+		massiv[i] = { max }; //massivitization 
+	}
 	cout << endl;
-	cout <<"Minimum element: " << min << "\t" 
+	cout <<"Maximum element: " << max << "\t" 
 		<< "Row: " << mr+1 <<"\t"
 		<< "Columns: " << mc+1 << endl;
 	cout << endl;
 	
-	cout << "New matrix: " << endl;
+	cout << "Massive: " << endl;
 
-	for (int i = 0; i < rows; i++) { //New matrix output
-		for (int j = 0; j < cols; j++)
-			cout << matrix[i][j] << "\t";
-		
-		cout << endl;
+	for (int i = 0; i < cols; i++) { //Massive
+		cout << massiv[i]<<"\t";
 	}
 
 }
